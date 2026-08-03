@@ -73,7 +73,7 @@ export function SiteHeader() {
       </div>
 
       {open && (
-        <div className="animate-fade-in border-t border-border bg-background px-6 pb-12 pt-6 text-ink md:hidden">
+        <div className="border-t border-border bg-background px-6 pb-12 pt-6 text-ink md:hidden">
           <nav className="flex flex-col gap-6">
             {nav.map((item) => (
               <Link
