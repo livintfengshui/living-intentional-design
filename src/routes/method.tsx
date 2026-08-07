@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import type { SVGProps } from "react";
 
 import { Reveal } from "@/components/reveal";
+import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/method")({
   head: () => ({
@@ -69,45 +70,28 @@ function IconMaterialize(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-const steps = [
-  {
-    title: "Observe",
-    Icon: IconObserve,
-    body: "We read the space as it is: orientation, light, structure, circulation, acoustics and the traces of how it is actually used.",
-  },
-  {
-    title: "Understand",
-    Icon: IconUnderstand,
-    body: "We map the people. Routines, work, rest, hosting, ambitions. The brief emerges from behaviour, not preference boards.",
-  },
-  {
-    title: "Design",
-    Icon: IconDesign,
-    body: "Plans, thresholds and proportions are resolved first. Function becomes the architecture of the interior.",
-  },
-  {
-    title: "Balance",
-    Icon: IconBalance,
-    body: "Classical Feng Shui is applied as a technical layer — orientation and time analysis calibrated against the plan.",
-  },
-  {
-    title: "Materialize",
-    Icon: IconMaterialize,
-    body: "Materials, lighting, joinery and furniture are specified and executed with the same precision as the plan.",
-  },
-];
+const stepIcons = [
+  IconObserve,
+  IconUnderstand,
+  IconDesign,
+  IconBalance,
+  IconMaterialize,
+] as const;
 
 function Method() {
+  const { t } = useI18n();
+  const c = t.method;
+
   return (
     <>
       <section className="px-6 pt-44 pb-20 md:px-12 md:pt-64 md:pb-28">
         <div className="mx-auto max-w-[1600px]">
           <Reveal>
-            <p className="eyebrow">The LIVINT Method</p>
+            <p className="eyebrow">{c.eyebrow}</p>
           </Reveal>
           <Reveal delay={140}>
             <h1 className="mt-10 max-w-4xl font-display text-4xl leading-[1.08] sm:text-5xl md:text-6xl lg:text-[4.5rem]">
-              Five stages, in sequence. Nothing decorative before something is understood.
+              {c.h1}
             </h1>
           </Reveal>
         </div>
@@ -115,20 +99,23 @@ function Method() {
 
       <section className="px-6 pb-32 md:px-12 md:pb-52">
         <div className="mx-auto max-w-[1600px]">
-          {steps.map(({ title, body, Icon }, index) => (
-            <Reveal key={title} delay={index * 90}>
-              <div className="grid gap-8 border-t border-border py-16 md:grid-cols-[auto_1fr_1.2fr] md:gap-16 md:py-24">
-                <div className="flex items-start gap-8">
-                  <p className="text-[0.6875rem] tracking-[0.26em] uppercase text-muted-foreground">
-                    {String(index + 1).padStart(2, "0")}
-                  </p>
-                  <Icon className="h-10 w-10 shrink-0 text-charcoal" aria-hidden="true" />
+          {c.steps.map(({ title, body }, index) => {
+            const Icon = stepIcons[index]!;
+            return (
+              <Reveal key={title} delay={index * 90}>
+                <div className="grid gap-8 border-t border-border py-16 md:grid-cols-[auto_1fr_1.2fr] md:gap-16 md:py-24">
+                  <div className="flex items-start gap-8">
+                    <p className="text-[0.6875rem] tracking-[0.26em] uppercase text-muted-foreground">
+                      {String(index + 1).padStart(2, "0")}
+                    </p>
+                    <Icon className="h-10 w-10 shrink-0 text-charcoal" aria-hidden="true" />
+                  </div>
+                  <h2 className="font-display text-4xl md:text-5xl lg:text-[3.5rem]">{title}</h2>
+                  <p className="max-w-lg text-sm leading-[2] text-charcoal md:text-base">{body}</p>
                 </div>
-                <h2 className="font-display text-4xl md:text-5xl lg:text-[3.5rem]">{title}</h2>
-                <p className="max-w-lg text-sm leading-[2] text-charcoal md:text-base">{body}</p>
-              </div>
-            </Reveal>
-          ))}
+              </Reveal>
+            );
+          })}
           <div className="border-t border-border" />
         </div>
       </section>
@@ -136,13 +123,11 @@ function Method() {
       <section className="bg-stone px-6 py-32 md:px-12 md:py-48">
         <div className="mx-auto max-w-3xl text-center">
           <Reveal>
-            <h2 className="font-display text-3xl leading-[1.18] md:text-5xl">
-              The method adapts to the scale of the project, never to the shortcut.
-            </h2>
+            <h2 className="font-display text-3xl leading-[1.18] md:text-5xl">{c.closing}</h2>
           </Reveal>
           <Reveal delay={180}>
             <Link to="/services" className="btn-line mt-14">
-              Explore our services
+              {c.cta}
             </Link>
           </Reveal>
         </div>

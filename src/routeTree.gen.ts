@@ -12,8 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as CookiesPolicyRouteImport } from './routes/cookies-policy'
+import { Route as LegalNoticeRouteImport } from './routes/legal-notice'
 import { Route as MethodRouteImport } from './routes/method'
 import { Route as PhilosophyRouteImport } from './routes/philosophy'
+import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as ServicesRouteImport } from './routes/services'
 
 const IndexRoute = IndexRouteImport.update({
@@ -31,6 +34,16 @@ const ContactRoute = ContactRouteImport.update({
   path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CookiesPolicyRoute = CookiesPolicyRouteImport.update({
+  id: '/cookies-policy',
+  path: '/cookies-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalNoticeRoute = LegalNoticeRouteImport.update({
+  id: '/legal-notice',
+  path: '/legal-notice',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MethodRoute = MethodRouteImport.update({
   id: '/method',
   path: '/method',
@@ -39,6 +52,11 @@ const MethodRoute = MethodRouteImport.update({
 const PhilosophyRoute = PhilosophyRouteImport.update({
   id: '/philosophy',
   path: '/philosophy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
+  id: '/privacy-policy',
+  path: '/privacy-policy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ServicesRoute = ServicesRouteImport.update({
@@ -51,16 +69,22 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/cookies-policy': typeof CookiesPolicyRoute
+  '/legal-notice': typeof LegalNoticeRoute
   '/method': typeof MethodRoute
   '/philosophy': typeof PhilosophyRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
   '/services': typeof ServicesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/cookies-policy': typeof CookiesPolicyRoute
+  '/legal-notice': typeof LegalNoticeRoute
   '/method': typeof MethodRoute
   '/philosophy': typeof PhilosophyRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
   '/services': typeof ServicesRoute
 }
 export interface FileRoutesById {
@@ -68,23 +92,46 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/cookies-policy': typeof CookiesPolicyRoute
+  '/legal-notice': typeof LegalNoticeRoute
   '/method': typeof MethodRoute
   '/philosophy': typeof PhilosophyRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
   '/services': typeof ServicesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/about' | '/contact' | '/method' | '/philosophy' | '/services'
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/cookies-policy'
+    | '/legal-notice'
+    | '/method'
+    | '/philosophy'
+    | '/privacy-policy'
+    | '/services'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/contact' | '/method' | '/philosophy' | '/services'
+  to:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/cookies-policy'
+    | '/legal-notice'
+    | '/method'
+    | '/philosophy'
+    | '/privacy-policy'
+    | '/services'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/contact'
+    | '/cookies-policy'
+    | '/legal-notice'
     | '/method'
     | '/philosophy'
+    | '/privacy-policy'
     | '/services'
   fileRoutesById: FileRoutesById
 }
@@ -92,8 +139,11 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
+  CookiesPolicyRoute: typeof CookiesPolicyRoute
+  LegalNoticeRoute: typeof LegalNoticeRoute
   MethodRoute: typeof MethodRoute
   PhilosophyRoute: typeof PhilosophyRoute
+  PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   ServicesRoute: typeof ServicesRoute
 }
 
@@ -120,6 +170,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cookies-policy': {
+      id: '/cookies-policy'
+      path: '/cookies-policy'
+      fullPath: '/cookies-policy'
+      preLoaderRoute: typeof CookiesPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal-notice': {
+      id: '/legal-notice'
+      path: '/legal-notice'
+      fullPath: '/legal-notice'
+      preLoaderRoute: typeof LegalNoticeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/method': {
       id: '/method'
       path: '/method'
@@ -132,6 +196,13 @@ declare module '@tanstack/react-router' {
       path: '/philosophy'
       fullPath: '/philosophy'
       preLoaderRoute: typeof PhilosophyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy-policy': {
+      id: '/privacy-policy'
+      path: '/privacy-policy'
+      fullPath: '/privacy-policy'
+      preLoaderRoute: typeof PrivacyPolicyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/services': {
@@ -148,8 +219,11 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
+  CookiesPolicyRoute: CookiesPolicyRoute,
+  LegalNoticeRoute: LegalNoticeRoute,
   MethodRoute: MethodRoute,
   PhilosophyRoute: PhilosophyRoute,
+  PrivacyPolicyRoute: PrivacyPolicyRoute,
   ServicesRoute: ServicesRoute,
 }
 export const routeTree = rootRouteImport

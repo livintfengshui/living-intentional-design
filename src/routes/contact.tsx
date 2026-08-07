@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 
 import { Reveal } from "@/components/reveal";
+import { useI18n } from "@/lib/i18n";
+import { CONTACT_EMAIL } from "@/lib/translations";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -22,30 +24,24 @@ export const Route = createFileRoute("/contact")({
   component: Contact,
 });
 
-const services = [
-  "Consulta Living",
-  "Audit LIVINT",
-  "Space Redesign",
-  "New Space Design",
-  "Decor & Curation",
-  "Not sure yet",
-];
-
 const fieldClass =
   "w-full border-0 border-b border-input bg-transparent pb-4 pt-2 text-base text-ink placeholder:text-muted-foreground/70 focus:border-ink focus:outline-none transition-colors duration-500";
 
 function Contact() {
   const [sent, setSent] = useState(false);
+  const { t } = useI18n();
+  const c = t.contact;
+  const services = [...t.services.items.map((s) => s.title), c.notSure];
 
   return (
     <section className="px-6 pt-44 pb-32 md:px-12 md:pt-64 md:pb-52">
       <div className="mx-auto max-w-[1600px]">
         <Reveal>
-          <p className="eyebrow">Contact</p>
+          <p className="eyebrow">{c.eyebrow}</p>
         </Reveal>
         <Reveal delay={140}>
           <h1 className="mt-10 max-w-4xl font-display text-4xl leading-[1.08] sm:text-5xl md:text-6xl lg:text-[4.5rem]">
-            Tell us about the space, and the life you want it to hold.
+            {c.h1}
           </h1>
         </Reveal>
 
@@ -53,25 +49,24 @@ function Contact() {
           <Reveal delay={200}>
             <div className="flex flex-col gap-12">
               <div>
-                <p className="eyebrow">Enquiries</p>
+                <p className="eyebrow">{c.enquiries}</p>
                 <a
-                  href="mailto:studio@livint.com"
+                  href={`mailto:${CONTACT_EMAIL}`}
                   className="mt-5 block font-display text-2xl md:text-3xl"
                 >
-                  studio@livint.com
+                  {CONTACT_EMAIL}
                 </a>
               </div>
               <div>
-                <p className="eyebrow">Consultations</p>
+                <p className="eyebrow">{c.consultations}</p>
                 <p className="mt-5 max-w-sm text-sm leading-[2] text-charcoal">
-                  By appointment, on site or remotely. Projects are accepted selectively to
-                  protect the depth of each engagement.
+                  {c.consultationsBody}
                 </p>
               </div>
               <div>
-                <p className="eyebrow">Disciplines</p>
+                <p className="eyebrow">{c.disciplines}</p>
                 <p className="mt-5 max-w-sm text-sm leading-[2] text-charcoal">
-                  Interior Design · Functional Space Planning · Classical Feng Shui
+                  {c.disciplinesBody}
                 </p>
               </div>
             </div>
@@ -80,9 +75,7 @@ function Contact() {
           <Reveal delay={320}>
             {sent ? (
               <div className="border-t border-border pt-16">
-                <p className="font-display text-3xl leading-[1.25] md:text-4xl">
-                  Thank you. Your enquiry has been noted — we will reply personally.
-                </p>
+                <p className="font-display text-3xl leading-[1.25] md:text-4xl">{c.sent}</p>
               </div>
             ) : (
               <form
@@ -95,13 +88,13 @@ function Contact() {
                 <div className="grid gap-12 sm:grid-cols-2">
                   <div>
                     <label htmlFor="name" className="eyebrow">
-                      Name
+                      {c.name}
                     </label>
                     <input id="name" name="name" required className={`${fieldClass} mt-5`} />
                   </div>
                   <div>
                     <label htmlFor="email" className="eyebrow">
-                      Email
+                      {c.email}
                     </label>
                     <input
                       id="email"
@@ -115,14 +108,14 @@ function Contact() {
 
                 <div>
                   <label htmlFor="location" className="eyebrow">
-                    Location of the space
+                    {c.location}
                   </label>
                   <input id="location" name="location" className={`${fieldClass} mt-5`} />
                 </div>
 
                 <div>
                   <label htmlFor="service" className="eyebrow">
-                    Service of interest
+                    {c.service}
                   </label>
                   <select id="service" name="service" className={`${fieldClass} mt-5`}>
                     {services.map((service) => (
@@ -135,7 +128,7 @@ function Contact() {
 
                 <div>
                   <label htmlFor="message" className="eyebrow">
-                    About the project
+                    {c.message}
                   </label>
                   <textarea
                     id="message"
@@ -146,7 +139,7 @@ function Contact() {
                 </div>
 
                 <button type="submit" className="btn-line self-start">
-                  Send enquiry
+                  {c.submit}
                 </button>
               </form>
             )}

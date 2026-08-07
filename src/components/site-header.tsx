@@ -2,20 +2,22 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 
 import { cn } from "@/lib/utils";
-
-const nav = [
-  { to: "/philosophy", label: "Philosophy" },
-  { to: "/method", label: "Method" },
-  { to: "/services", label: "Services" },
-  { to: "/about", label: "About" },
-  { to: "/contact", label: "Contact" },
-] as const;
+import { useI18n } from "@/lib/i18n";
 
 export function SiteHeader() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isHome = pathname === "/";
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const { t, lang, setLang } = useI18n();
+
+  const nav = [
+    { to: "/philosophy", label: t.nav.philosophy },
+    { to: "/method", label: t.nav.method },
+    { to: "/services", label: t.nav.services },
+    { to: "/about", label: t.nav.about },
+    { to: "/contact", label: t.nav.contact },
+  ] as const;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -29,6 +31,27 @@ export function SiteHeader() {
   }, [pathname]);
 
   const overlay = isHome && !scrolled;
+
+  const LangSwitch = ({ className }: { className?: string }) => (
+    <div className={cn("flex items-center gap-2 font-sans text-[0.6875rem] tracking-[0.24em] uppercase", className)}>
+      {(["en", "es"] as const).map((code, index) => (
+        <span key={code} className="flex items-center gap-2">
+          {index === 1 && <span className="opacity-30">/</span>}
+          <button
+            type="button"
+            onClick={() => setLang(code)}
+            aria-pressed={lang === code}
+            className={cn(
+              "transition-opacity duration-500 hover:opacity-100",
+              lang === code ? "opacity-100" : "opacity-40",
+            )}
+          >
+            {code}
+          </button>
+        </span>
+      ))}
+    </div>
+  );
 
   return (
     <header
@@ -48,28 +71,32 @@ export function SiteHeader() {
           Livint
         </Link>
 
-        <nav className="hidden shrink-0 items-center gap-10 md:flex">
-          {nav.map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              className="font-sans text-[0.6875rem] tracking-[0.24em] uppercase opacity-70 transition-opacity duration-500 hover:opacity-100"
-              activeProps={{ className: "opacity-100" }}
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
+        <div className="flex shrink-0 items-center gap-10">
+          <nav className="hidden shrink-0 items-center gap-10 md:flex">
+            {nav.map((item) => (
+              <Link
+                key={item.to}
+                to={item.to}
+                className="font-sans text-[0.6875rem] tracking-[0.24em] uppercase opacity-70 transition-opacity duration-500 hover:opacity-100"
+                activeProps={{ className: "opacity-100" }}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
 
-        <button
-          type="button"
-          onClick={() => setOpen((v) => !v)}
-          aria-expanded={open}
-          aria-label="Toggle menu"
-          className="shrink-0 font-sans text-[0.6875rem] tracking-[0.24em] uppercase md:hidden"
-        >
-          {open ? "Close" : "Menu"}
-        </button>
+          <LangSwitch className="hidden md:flex" />
+
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-label="Toggle menu"
+            className="shrink-0 font-sans text-[0.6875rem] tracking-[0.24em] uppercase md:hidden"
+          >
+            {open ? t.nav.close : t.nav.menu}
+          </button>
+        </div>
       </div>
 
       {open && (
@@ -85,6 +112,7 @@ export function SiteHeader() {
               </Link>
             ))}
           </nav>
+          <LangSwitch className="mt-10" />
         </div>
       )}
     </header>
