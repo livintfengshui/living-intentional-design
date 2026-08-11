@@ -62,7 +62,7 @@ function ServiceNotFound() {
 }
 
 function ServiceDetailPage() {
-  const { slug } = Route.useLoaderData();
+  const { slug } = Route.useLoaderData() as { slug: ServiceSlug };
   const { lang, t } = useI18n();
   const detail = serviceDetails[lang][slug];
   const others = SERVICE_SLUGS.filter((s) => s !== slug);
