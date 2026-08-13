@@ -18,6 +18,7 @@ import { Route as MethodRouteImport } from './routes/method'
 import { Route as PhilosophyRouteImport } from './routes/philosophy'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as V2RouteImport } from './routes/v2'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
 
@@ -66,6 +67,11 @@ const ServicesRoute = ServicesRouteImport.update({
   path: '/services',
   getParentRoute: () => rootRouteImport,
 } as any)
+const V2Route = V2RouteImport.update({
+  id: '/v2',
+  path: '/v2',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ServicesIndexRoute = ServicesIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -87,6 +93,7 @@ export interface FileRoutesByFullPath {
   '/philosophy': typeof PhilosophyRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/services': typeof ServicesRouteWithChildren
+  '/v2': typeof V2Route
   '/services/$slug': typeof ServicesSlugRoute
   '/services/': typeof ServicesIndexRoute
 }
@@ -99,6 +106,7 @@ export interface FileRoutesByTo {
   '/method': typeof MethodRoute
   '/philosophy': typeof PhilosophyRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
+  '/v2': typeof V2Route
   '/services/$slug': typeof ServicesSlugRoute
   '/services': typeof ServicesIndexRoute
 }
@@ -113,6 +121,7 @@ export interface FileRoutesById {
   '/philosophy': typeof PhilosophyRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/services': typeof ServicesRouteWithChildren
+  '/v2': typeof V2Route
   '/services/$slug': typeof ServicesSlugRoute
   '/services/': typeof ServicesIndexRoute
 }
@@ -128,6 +137,7 @@ export interface FileRouteTypes {
     | '/philosophy'
     | '/privacy-policy'
     | '/services'
+    | '/v2'
     | '/services/$slug'
     | '/services/'
   fileRoutesByTo: FileRoutesByTo
@@ -140,6 +150,7 @@ export interface FileRouteTypes {
     | '/method'
     | '/philosophy'
     | '/privacy-policy'
+    | '/v2'
     | '/services/$slug'
     | '/services'
   id:
@@ -153,6 +164,7 @@ export interface FileRouteTypes {
     | '/philosophy'
     | '/privacy-policy'
     | '/services'
+    | '/v2'
     | '/services/$slug'
     | '/services/'
   fileRoutesById: FileRoutesById
@@ -167,6 +179,7 @@ export interface RootRouteChildren {
   PhilosophyRoute: typeof PhilosophyRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   ServicesRoute: typeof ServicesRouteWithChildren
+  V2Route: typeof V2Route
 }
 
 declare module '@tanstack/react-router' {
@@ -234,6 +247,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/v2': {
+      id: '/v2'
+      path: '/v2'
+      fullPath: '/v2'
+      preLoaderRoute: typeof V2RouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/services/': {
       id: '/services/'
       path: '/'
@@ -275,7 +295,18 @@ const rootRouteChildren: RootRouteChildren = {
   PhilosophyRoute: PhilosophyRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   ServicesRoute: ServicesRouteWithChildren,
+  V2Route: V2Route,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
