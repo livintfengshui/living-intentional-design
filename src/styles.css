@@ -269,3 +269,85 @@
     animation: none;
   }
 }
+
+/* ── Warm preview theme (route /v2) ─────────────────────────────────
+   Same brand, softer register: sandier surfaces, clay accent, gentle
+   radii and warmer text tone. Scoped so the main site is untouched. */
+.theme-warm {
+  --ivory: oklch(0.965 0.014 78);
+  --stone: oklch(0.905 0.026 74);
+  --linen: oklch(0.868 0.036 70);
+  --sand: oklch(0.772 0.052 62);
+  --clay: oklch(0.585 0.088 48);
+  --charcoal: oklch(0.36 0.018 45);
+  --ink: oklch(0.235 0.02 45);
+
+  --background: var(--ivory);
+  --foreground: var(--ink);
+  --muted-foreground: oklch(0.505 0.028 55);
+  --border: oklch(0.868 0.03 72);
+  --ring: var(--clay);
+
+  background-color: var(--ivory);
+  color: var(--ink);
+}
+
+@theme inline {
+  --color-clay: var(--clay);
+}
+
+@utility warm-card {
+  border-radius: 1.25rem;
+  background: color-mix(in oklab, var(--color-linen) 34%, var(--color-ivory));
+  border: 1px solid color-mix(in oklab, var(--color-sand) 40%, transparent);
+  transition:
+    transform 700ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 700ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 24px 60px -32px color-mix(in oklab, var(--clay) 55%, transparent);
+  }
+}
+
+@utility btn-warm {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 1.05rem 2.4rem;
+  font-size: 0.6875rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  background: var(--clay);
+  color: oklch(0.98 0.008 80);
+  transition:
+    background-color 600ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  &:hover {
+    background: color-mix(in oklab, var(--clay) 82%, black);
+    transform: translateY(-2px);
+  }
+}
+
+@utility btn-warm-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklab, var(--clay) 55%, transparent);
+  padding: 1.05rem 2.4rem;
+  font-size: 0.6875rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--clay);
+  background: transparent;
+  transition:
+    background-color 600ms cubic-bezier(0.16, 1, 0.3, 1),
+    color 600ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  &:hover {
+    background: color-mix(in oklab, var(--clay) 12%, transparent);
+  }
+}
