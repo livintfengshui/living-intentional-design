@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 
-import heroImage from "@/assets/hero.jpg";
-import philosophyImage from "@/assets/philosophy.jpg";
+import heroImage from "@/assets/warm-hero.jpg";
+import philosophyImage from "@/assets/warm-detail.jpg";
 import { Reveal, RevealImage } from "@/components/reveal";
 import { useI18n } from "@/lib/i18n";
 
