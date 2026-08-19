@@ -39,7 +39,7 @@ function Home() {
           height={1200}
           className="absolute inset-0 h-full w-full object-cover"
         />
-        <div className="absolute inset-0 bg-ink/35" />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/25 to-transparent" />
 
         <div className="relative flex h-full flex-col justify-end px-6 pb-24 md:px-12 md:pb-28">
           <div className="mx-auto w-full max-w-[1600px]">
