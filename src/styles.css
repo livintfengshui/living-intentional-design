@@ -222,6 +222,8 @@
 /* Slow image reveal (clip + scale) */
 @utility img-veil {
   overflow: hidden;
+  border-radius: 1.5rem;
+
 
   & img {
     transform: scale(1.06);
