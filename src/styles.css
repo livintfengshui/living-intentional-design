@@ -122,7 +122,7 @@
   font-weight: 400;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: var(--color-muted-foreground);
+  color: var(--color-clay);
 }
 
 /* Quiet, underlined text link */
