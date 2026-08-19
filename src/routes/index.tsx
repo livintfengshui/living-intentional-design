@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 
-import heroImage from "@/assets/hero.jpg";
-import philosophyImage from "@/assets/philosophy.jpg";
+import heroImage from "@/assets/warm-hero.jpg";
+import philosophyImage from "@/assets/warm-detail.jpg";
 import { Reveal, RevealImage } from "@/components/reveal";
 import { useI18n } from "@/lib/i18n";
 
@@ -39,7 +39,7 @@ function Home() {
           height={1200}
           className="absolute inset-0 h-full w-full object-cover"
         />
-        <div className="absolute inset-0 bg-ink/35" />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/25 to-transparent" />
 
         <div className="relative flex h-full flex-col justify-end px-6 pb-24 md:px-12 md:pb-28">
           <div className="mx-auto w-full max-w-[1600px]">
@@ -92,28 +92,28 @@ function Home() {
         </div>
       </section>
 
-      <section className="grid items-stretch md:grid-cols-2">
+      <section className="grid items-stretch gap-10 px-6 pb-8 md:grid-cols-2 md:gap-16 md:px-12">
         <RevealImage
           src={philosophyImage}
           alt={c.philosophyAlt}
           width={1408}
           height={1760}
-          className="h-[70vh] md:h-auto md:min-h-[86vh]"
+          className="h-[70vh] md:h-auto md:min-h-[80vh]"
         />
-        <div className="flex items-center bg-stone px-6 py-24 md:px-16 lg:px-24">
+        <div className="flex items-center py-8 md:py-16">
           <div className="w-full">
             <Reveal>
               <p className="eyebrow">{c.disciplinesEyebrow}</p>
             </Reveal>
-            <div className="mt-16 flex flex-col">
+            <div className="mt-12 flex flex-col gap-6">
               {c.disciplines.map((item, index) => (
                 <Reveal key={item.title} delay={index * 140}>
-                  <div className="border-t border-ink/12 py-10">
-                    <p className="text-[0.6875rem] tracking-[0.26em] uppercase text-muted-foreground">
+                  <div className="warm-card p-8 md:p-9">
+                    <span className="font-sans text-[0.6875rem] tracking-[0.26em] uppercase text-clay">
                       {String(index + 1).padStart(2, "0")}
-                    </p>
+                    </span>
                     <h3 className="mt-5 font-display text-3xl md:text-4xl">{item.title}</h3>
-                    <p className="mt-5 max-w-md text-sm leading-[1.95] text-charcoal">
+                    <p className="mt-4 max-w-md text-sm leading-[1.95] text-muted-foreground">
                       {item.body}
                     </p>
                   </div>
@@ -121,13 +121,14 @@ function Home() {
               ))}
             </div>
             <Reveal delay={420}>
-              <Link to="/method" className="link-quiet mt-14 text-ink">
+              <Link to="/method" className="link-quiet mt-14 text-clay">
                 {c.methodLink}
               </Link>
             </Reveal>
           </div>
         </div>
       </section>
+
 
       <section className="px-6 py-36 md:px-12 md:py-56">
         <div className="mx-auto max-w-4xl text-center">
