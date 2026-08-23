@@ -30,7 +30,7 @@ function Philosophy() {
 
   return (
     <>
-      <section className="px-6 pt-44 pb-24 md:px-12 md:pt-64 md:pb-32">
+      <section className="px-6 pt-44 pb-16 md:px-12 md:pt-64 md:pb-20">
         <div className="mx-auto max-w-[1600px]">
           <Reveal>
             <p className="eyebrow">{c.eyebrow}</p>
@@ -43,29 +43,27 @@ function Philosophy() {
         </div>
       </section>
 
-      <div className="flex flex-col">
-        {c.statements.map((item, index) => (
-          <section
-            key={item.line}
-            className={
-              index % 2 === 1
-                ? "bg-stone px-6 py-32 md:px-12 md:py-56"
-                : "px-6 py-32 md:px-12 md:py-56"
-            }
-          >
-            <div className="mx-auto grid max-w-[1600px] gap-14 md:grid-cols-[1fr_auto] md:items-end">
-              <Reveal>
-                <p className="max-w-4xl font-display text-3xl leading-[1.16] sm:text-4xl md:text-5xl lg:text-[4rem]">
-                  {item.line}
-                </p>
+      <section className="px-6 pb-28 md:px-12 md:pb-40">
+        <div className="mx-auto max-w-[1600px]">
+          <div className="grid border-t border-border lg:grid-cols-5 lg:border-b">
+            {c.statements.map((item, index) => (
+              <Reveal key={item.line} delay={index * 90} className="h-full">
+                <div className="group h-full border-b border-border py-8 transition-colors duration-700 hover:bg-stone/50 lg:border-b-0 lg:border-l lg:px-8 lg:py-10 lg:first:border-l-0 lg:first:pl-0">
+                  <p className="text-[0.6875rem] tracking-[0.26em] uppercase text-muted-foreground transition-colors duration-700 group-hover:text-clay">
+                    {String(index + 1).padStart(2, "0")}
+                  </p>
+                  <p className="mt-6 font-display text-xl leading-[1.3] md:text-2xl">
+                    {item.line}
+                  </p>
+                  <p className="mt-6 text-sm leading-[1.9] text-charcoal/80 transition-colors duration-700 group-hover:text-charcoal">
+                    {item.note}
+                  </p>
+                </div>
               </Reveal>
-              <Reveal delay={200}>
-                <p className="max-w-xs text-sm leading-[2] text-charcoal">{item.note}</p>
-              </Reveal>
-            </div>
-          </section>
-        ))}
-      </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       <section className="px-6 pb-32 md:px-12 md:pb-52">
         <RevealImage
