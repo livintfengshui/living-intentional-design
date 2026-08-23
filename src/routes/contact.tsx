@@ -3,9 +3,17 @@ import { useState } from "react";
 
 import { Reveal } from "@/components/reveal";
 import { useI18n } from "@/lib/i18n";
+import { isServiceSlug, SERVICE_SLUGS, type ServiceSlug } from "@/lib/service-details";
 import { CONTACT_EMAIL } from "@/lib/translations";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/contact")({
+  validateSearch: (search: Record<string, unknown>): { service?: ServiceSlug } => ({
+    service:
+      typeof search.service === "string" && isServiceSlug(search.service)
+        ? search.service
+        : undefined,
+  }),
   head: () => ({
     meta: [
       { title: "Contact — LIVINT | Enquiries & Consultations" },
@@ -31,7 +39,13 @@ function Contact() {
   const [sent, setSent] = useState(false);
   const { t } = useI18n();
   const c = t.contact;
+  const { service: originatingService } = Route.useSearch();
   const services = [...t.services.items.map((s) => s.title), c.notSure];
+
+  const originIndex = originatingService ? SERVICE_SLUGS.indexOf(originatingService) : -1;
+  const [selectedService, setSelectedService] = useState(
+    originIndex >= 0 ? (t.services.items[originIndex]?.title ?? "") : "",
+  );
 
   return (
     <section className="px-6 pt-44 pb-32 md:px-12 md:pt-64 md:pb-52">
@@ -117,7 +131,19 @@ function Contact() {
                   <label htmlFor="service" className="eyebrow">
                     {c.service}
                   </label>
-                  <select id="service" name="service" className={`${fieldClass} mt-5`}>
+                  <select
+                    id="service"
+                    name="service"
+                    value={selectedService}
+                    onChange={(event) => setSelectedService(event.target.value)}
+                    className={cn(
+                      `${fieldClass} mt-5`,
+                      selectedService === "" && "text-muted-foreground/70",
+                    )}
+                  >
+                    <option value="" disabled>
+                      {c.selectService}
+                    </option>
                     {services.map((service) => (
                       <option key={service} value={service}>
                         {service}

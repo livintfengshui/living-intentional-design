@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import type { SVGProps } from "react";
+import { useState, type SVGProps } from "react";
 
 import { Reveal } from "@/components/reveal";
 import { useI18n } from "@/lib/i18n";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/method")({
   head: () => ({
@@ -64,7 +65,7 @@ function IconBalance(props: SVGProps<SVGSVGElement>) {
 function IconMaterialize(props: SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="0.75" {...props}>
-      <path d="M24 8l16 9v14l-16 9-16-9V17z" />
+      <path d="M24 8l16 9v14l-16 9-16-9-16-9V17z" />
       <path d="M24 26l16-9M24 26v14M24 26L8 17" />
     </svg>
   );
@@ -81,10 +82,11 @@ const stepIcons = [
 function Method() {
   const { t } = useI18n();
   const c = t.method;
+  const [active, setActive] = useState(0);
 
   return (
     <>
-      <section className="px-6 pt-44 pb-20 md:px-12 md:pt-64 md:pb-28">
+      <section className="px-6 pt-44 pb-16 md:px-12 md:pt-64 md:pb-24">
         <div className="mx-auto max-w-[1600px]">
           <Reveal>
             <p className="eyebrow">{c.eyebrow}</p>
@@ -97,26 +99,110 @@ function Method() {
         </div>
       </section>
 
-      <section className="px-6 pb-32 md:px-12 md:pb-52">
+      <section className="px-6 pb-32 md:px-12 md:pb-48">
         <div className="mx-auto max-w-[1600px]">
-          {c.steps.map(({ title, body }, index) => {
-            const Icon = stepIcons[index]!;
-            return (
-              <Reveal key={title} delay={index * 90}>
-                <div className="grid gap-8 border-t border-border py-16 md:grid-cols-[auto_1fr_1.2fr] md:gap-16 md:py-24">
-                  <div className="flex items-start gap-8">
-                    <p className="text-[0.6875rem] tracking-[0.26em] uppercase text-muted-foreground">
-                      {String(index + 1).padStart(2, "0")}
-                    </p>
-                    <Icon className="h-10 w-10 shrink-0 text-charcoal" aria-hidden="true" />
-                  </div>
-                  <h2 className="font-display text-4xl md:text-5xl lg:text-[3.5rem]">{title}</h2>
-                  <p className="max-w-lg text-sm leading-[2] text-charcoal md:text-base">{body}</p>
-                </div>
-              </Reveal>
-            );
-          })}
-          <div className="border-t border-border" />
+          {/* Desktop / tablet: horizontal timeline */}
+          <Reveal className="hidden md:block" delay={200}>
+            <div className="relative">
+              <div className="absolute inset-x-0 top-[5px] h-px bg-ink/15" aria-hidden="true" />
+              <div className="relative grid grid-cols-5 gap-8 lg:gap-12">
+                {c.steps.map((step, index) => {
+                  const Icon = stepIcons[index]!;
+                  const isActive = index === active;
+                  return (
+                    <button
+                      key={step.title}
+                      type="button"
+                      onMouseEnter={() => setActive(index)}
+                      onFocus={() => setActive(index)}
+                      onClick={() => setActive(index)}
+                      aria-pressed={isActive}
+                      className="group cursor-pointer text-left"
+                    >
+                      <span
+                        className={cn(
+                          "block h-[11px] w-[11px] rounded-full border transition-colors duration-500",
+                          isActive
+                            ? "border-clay bg-clay"
+                            : "border-ink/30 bg-background group-hover:border-clay",
+                        )}
+                      />
+                      <span className="mt-8 block text-[0.6875rem] tracking-[0.26em] uppercase text-muted-foreground">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                      <Icon
+                        className={cn(
+                          "mt-6 h-10 w-10 transition-colors duration-500",
+                          isActive ? "text-clay" : "text-charcoal/60 group-hover:text-charcoal",
+                        )}
+                        aria-hidden="true"
+                      />
+                      <span
+                        className={cn(
+                          "mt-5 block font-display text-2xl leading-[1.15] transition-colors duration-500 lg:text-[1.75rem]",
+                          isActive ? "text-ink" : "text-ink/45 group-hover:text-ink/80",
+                        )}
+                      >
+                        {step.title}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+            <div className="mt-16 max-w-2xl border-t border-border pt-10">
+              <p
+                key={active}
+                className="animate-in fade-in slide-in-from-bottom-2 text-sm leading-[2] text-charcoal duration-700 md:text-base"
+              >
+                {c.steps[active]!.body}
+              </p>
+            </div>
+          </Reveal>
+
+          {/* Mobile: compact vertical sequence */}
+          <Reveal className="md:hidden" delay={160}>
+            <ol className="border-t border-border">
+              {c.steps.map((step, index) => {
+                const Icon = stepIcons[index]!;
+                const isActive = index === active;
+                return (
+                  <li key={step.title} className="border-b border-border">
+                    <button
+                      type="button"
+                      onClick={() => setActive(index)}
+                      aria-expanded={isActive}
+                      className="flex w-full items-center gap-5 py-6 text-left"
+                    >
+                      <span
+                        className={cn(
+                          "text-[0.6875rem] tracking-[0.26em] uppercase transition-colors duration-500",
+                          isActive ? "text-clay" : "text-muted-foreground",
+                        )}
+                      >
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                      <Icon
+                        className={cn(
+                          "h-7 w-7 shrink-0 transition-colors duration-500",
+                          isActive ? "text-clay" : "text-charcoal/60",
+                        )}
+                        aria-hidden="true"
+                      />
+                      <span className="min-w-0 flex-1 font-display text-2xl leading-[1.15]">
+                        {step.title}
+                      </span>
+                    </button>
+                    {isActive ? (
+                      <p className="animate-in fade-in slide-in-from-top-1 pb-7 pl-[4.5rem] text-sm leading-[1.95] text-charcoal duration-500">
+                        {step.body}
+                      </p>
+                    ) : null}
+                  </li>
+                );
+              })}
+            </ol>
+          </Reveal>
         </div>
       </section>
 
