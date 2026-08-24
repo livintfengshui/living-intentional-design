@@ -191,7 +191,7 @@ function ServiceDetailPage() {
             </h2>
           </Reveal>
           <Reveal delay={240}>
-            <Link to="/contact" className="btn-line mt-14">
+            <Link to="/contact" search={{ service: slug }} className="btn-line mt-14">
               {t.services.enquire}
             </Link>
           </Reveal>
