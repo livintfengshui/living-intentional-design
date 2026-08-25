@@ -65,7 +65,7 @@ function IconBalance(props: SVGProps<SVGSVGElement>) {
 function IconMaterialize(props: SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="0.75" {...props}>
-      <path d="M24 8l16 9v14l-16 9-16-9-16-9V17z" />
+      <path d="M24 8l16 9v14l-16 9-16-9V17z" />
       <path d="M24 26l16-9M24 26v14M24 26L8 17" />
     </svg>
   );
