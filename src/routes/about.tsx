@@ -44,15 +44,16 @@ function About() {
       </section>
 
       <section className="px-6 pb-32 md:px-12 md:pb-48">
-        <div className="mx-auto grid max-w-[1600px] gap-16 lg:grid-cols-[0.9fr_1fr] lg:gap-28">
+        <div className="mx-auto grid max-w-[1600px] gap-16 lg:grid-cols-[0.85fr_1fr] lg:items-start lg:gap-28">
           <RevealImage
             src={aboutImage}
             alt={c.imageAlt}
             width={1408}
             height={1760}
-            className="aspect-[4/5] w-full"
+            imgClassName="h-auto w-full object-contain"
+            className="mx-auto w-full max-w-md self-start lg:sticky lg:top-32 lg:max-w-none"
           />
-          <div className="flex flex-col justify-center">
+          <div className="flex flex-col justify-center lg:pt-6">
             <Reveal>
               <p className="font-display text-2xl leading-[1.35] md:text-3xl lg:text-[2.5rem]">
                 {c.lead}
