@@ -96,7 +96,7 @@ function Services() {
           {/* Preview image, desktop only — restrained hover response */}
           <Reveal delay={160} className="hidden lg:block">
             <div className="sticky top-32">
-              <div className="img-veil img-veil-in aspect-[4/5] w-full bg-stone">
+              <div className="img-veil img-veil-in relative aspect-[4/5] w-full bg-stone">
                 {images.map((image, index) => (
                   <img
                     key={image}

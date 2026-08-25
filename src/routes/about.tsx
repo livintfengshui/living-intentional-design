@@ -50,7 +50,7 @@ function About() {
             alt={c.imageAlt}
             width={1408}
             height={1760}
-            imgClassName="object-contain object-center"
+            imgClassName="h-auto w-full object-contain"
             className="mx-auto w-full max-w-md self-start lg:sticky lg:top-32 lg:max-w-none"
           />
           <div className="flex flex-col justify-center lg:pt-6">
