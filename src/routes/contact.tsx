@@ -8,12 +8,10 @@ import { CONTACT_EMAIL } from "@/lib/translations";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/contact")({
-  validateSearch: (search: Record<string, unknown>): { service?: ServiceSlug } => ({
-    service:
-      typeof search.service === "string" && isServiceSlug(search.service)
-        ? search.service
-        : undefined,
-  }),
+  validateSearch: (search: Record<string, unknown>): { service?: ServiceSlug } => {
+    const raw = search["service"];
+    return typeof raw === "string" && isServiceSlug(raw) ? { service: raw } : {};
+  },
   head: () => ({
     meta: [
       { title: "Contact — LIVINT | Enquiries & Consultations" },
