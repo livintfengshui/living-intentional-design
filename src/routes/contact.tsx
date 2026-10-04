@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 
 import { Reveal } from "@/components/reveal";
 import { useI18n } from "@/lib/i18n";
@@ -49,7 +49,7 @@ function Contact() {
     originIndex >= 0 ? (t.services.items[originIndex]?.title ?? "") : "",
   );
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
     const data = new FormData(form);
