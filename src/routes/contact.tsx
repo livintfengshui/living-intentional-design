@@ -52,25 +52,16 @@ function Contact() {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
-    const data = new FormData(form);
     setStatus("sending");
     try {
+      const payload = new FormData(form);
+      payload.append("access_key", WEB3FORMS_ACCESS_KEY);
+      payload.append("subject", "Nueva consulta desde LIVINT");
+      payload.append("from_name", "LIVINT — Contacto");
       const response = await fetch(WEB3FORMS_ENDPOINT, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          access_key: WEB3FORMS_ACCESS_KEY,
-          subject: "Nueva consulta desde LIVINT",
-          from_name: "LIVINT — Contacto",
-          name: data.get("name"),
-          email: data.get("email"),
-          location: data.get("location"),
-          service: data.get("service"),
-          message: data.get("message"),
-        }),
+        headers: { Accept: "application/json" },
+        body: payload,
       });
       const result = await response.json();
       if (!response.ok || !result.success) {
