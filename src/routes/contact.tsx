@@ -198,9 +198,18 @@ function Contact() {
                   />
                 </div>
 
-                <button type="submit" className="btn-line self-start">
-                  {c.submit}
+                <button
+                  type="submit"
+                  disabled={status === "sending"}
+                  className="btn-line self-start disabled:opacity-60"
+                >
+                  {status === "sending" ? c.sending : c.submit}
                 </button>
+                {status === "error" && (
+                  <p className="text-sm text-clay" role="alert">
+                    {c.error}
+                  </p>
+                )}
               </form>
             )}
           </Reveal>

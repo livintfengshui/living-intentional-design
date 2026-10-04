@@ -217,6 +217,8 @@ export const translations = {
       selectService: "Select a service",
       message: "About the project",
       submit: "Send enquiry",
+      sending: "Sending…",
+      error: "Something went wrong while sending your enquiry. Please try again or write to us directly.",
       notSure: "Not sure yet",
     },
     legal: {
@@ -453,6 +455,8 @@ export const translations = {
       selectService: "Selecciona un servicio",
       message: "Sobre el proyecto",
       submit: "Enviar consulta",
+      sending: "Enviando…",
+      error: "Algo salió mal al enviar tu consulta. Inténtalo de nuevo o escríbenos directamente.",
       notSure: "Aún no lo sé",
     },
     legal: {
