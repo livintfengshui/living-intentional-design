@@ -477,7 +477,7 @@ export const translations = {
   },
 } as const;
 
-export const CONTACT_EMAIL = "livint.fengshui@gmail.com";
+export const CONTACT_EMAIL = "hola@livint.es";
 
 export const SOCIALS = [
   { name: "Instagram", href: "https://www.instagram.com/livint.interiors", handle: "@livint.interiors" },
