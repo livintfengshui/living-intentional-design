@@ -33,8 +33,12 @@ export const Route = createFileRoute("/contact")({
 const fieldClass =
   "w-full border-0 border-b border-input bg-transparent pb-4 pt-2 text-base text-ink placeholder:text-muted-foreground/70 focus:border-ink focus:outline-none transition-colors duration-500";
 
+const WEB3FORMS_ENDPOINT = "https://api.web3forms.com/submit";
+const WEB3FORMS_ACCESS_KEY = "6c74e1cd-a0cb-42b6-90d2-b778e31a8b2f";
+
 function Contact() {
   const [sent, setSent] = useState(false);
+  const [status, setStatus] = useState<"idle" | "sending" | "error">("idle");
   const { t } = useI18n();
   const c = t.contact;
   const { service: originatingService } = Route.useSearch();
@@ -44,6 +48,41 @@ function Contact() {
   const [selectedService, setSelectedService] = useState(
     originIndex >= 0 ? (t.services.items[originIndex]?.title ?? "") : "",
   );
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    setStatus("sending");
+    try {
+      const response = await fetch(WEB3FORMS_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject: "Nueva consulta desde LIVINT",
+          from_name: "LIVINT — Contacto",
+          name: data.get("name"),
+          email: data.get("email"),
+          location: data.get("location"),
+          service: data.get("service"),
+          message: data.get("message"),
+        }),
+      });
+      const result = await response.json();
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || "Submission failed");
+      }
+      setSent(true);
+      setStatus("idle");
+      form.reset();
+    } catch {
+      setStatus("error");
+    }
+  }
 
   return (
     <section className="px-6 pt-44 pb-32 md:px-12 md:pt-64 md:pb-52">
@@ -92,10 +131,7 @@ function Contact() {
             ) : (
               <form
                 className="flex flex-col gap-12"
-                onSubmit={(event) => {
-                  event.preventDefault();
-                  setSent(true);
-                }}
+                onSubmit={handleSubmit}
               >
                 <div className="grid gap-12 sm:grid-cols-2">
                   <div>
